@@ -13,7 +13,7 @@
 	<artifactId>fnmusic_base</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fnmusic_base</name>
-	<description>base module for fnmusic</description>
+	<description>Base Library for fnmusic enterprise platform</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -21,23 +21,27 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<version>2.1.4.RELEASE</version>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>2.1.8.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>2.1.4.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>5.1.6.RELEASE</version>
-			<scope>compile</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>2.1.4.RELEASE</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

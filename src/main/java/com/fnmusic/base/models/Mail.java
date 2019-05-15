@@ -1,8 +1,8 @@
 package com.fnmusic.base.models;
 
-import org.springframework.http.MediaType;
-
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by Stephen.Enunwah
@@ -13,14 +13,14 @@ public class Mail implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String mailFrom;
-    private String mailTo;
-    private String mailCc;
-    private String mailBcc;
+    private String[] mailTo;
+    private String[] mailCc;
+    private String[] mailBcc;
     private String mailSubject;
-    private String mailContent;
     private String templateName;
-    private MediaType contentType;
     private String body;
+    private String actionLink;
+    private Date sentDate;
 
     public String getMailFrom() {
         return mailFrom;
@@ -30,27 +30,27 @@ public class Mail implements Serializable {
         this.mailFrom = mailFrom;
     }
 
-    public String getMailTo() {
+    public String[] getMailTo() {
         return mailTo;
     }
 
-    public void setMailTo(String mailTo) {
+    public void setMailTo(String[] mailTo) {
         this.mailTo = mailTo;
     }
 
-    public String getMailCc() {
+    public String[] getMailCc() {
         return mailCc;
     }
 
-    public void setMailCc(String mailCc) {
+    public void setMailCc(String[] mailCc) {
         this.mailCc = mailCc;
     }
 
-    public String getMailBcc() {
+    public String[] getMailBcc() {
         return mailBcc;
     }
 
-    public void setMailBcc(String mailBcc) {
+    public void setMailBcc(String[] mailBcc) {
         this.mailBcc = mailBcc;
     }
 
@@ -62,14 +62,6 @@ public class Mail implements Serializable {
         this.mailSubject = mailSubject;
     }
 
-    public String getMailContent() {
-        return mailContent;
-    }
-
-    public void setMailContent(String mailContent) {
-        this.mailContent = mailContent;
-    }
-
     public String getTemplateName() {
         return templateName;
     }
@@ -78,19 +70,42 @@ public class Mail implements Serializable {
         this.templateName = templateName;
     }
 
-    public MediaType getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(MediaType contentType) {
-        this.contentType = contentType;
-    }
-
     public String getBody() {
         return body;
     }
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getActionLink() {
+        return actionLink;
+    }
+
+    public void setActionLink(String actionLink) {
+        this.actionLink = actionLink;
+    }
+
+    public Date getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(Date sentDate) {
+        this.sentDate = sentDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Mail{" +
+                "mailFrom='" + mailFrom + '\'' +
+                ", mailTo=" + Arrays.toString(mailTo) +
+                ", mailCc=" + Arrays.toString(mailCc) +
+                ", mailBcc=" + Arrays.toString(mailBcc) +
+                ", mailSubject='" + mailSubject + '\'' +
+                ", templateName='" + templateName + '\'' +
+                ", body='" + body + '\'' +
+                ", actionLink='" + actionLink + '\'' +
+                ", sentDate=" + sentDate +
+                '}';
     }
 }
