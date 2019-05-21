@@ -9,8 +9,9 @@ public class Result<T> {
     private Integer resultCode;
     private Long identityValue;
     private Long noOfRecords;
-    private int PageNumber;
-    private Integer PageSize;
+    private int pageNumber;
+    private Integer pageSize;
+    private boolean status;
 
     public Result() {
     }
@@ -19,8 +20,8 @@ public class Result<T> {
         this.list = list;
         this.resultCode = resultCode;
         this.noOfRecords = noOfRecords;
-        this.PageNumber = pageNumber;
-        this.PageSize = pageSize;
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
     }
 
     public Result(Integer resultCode) {
@@ -35,6 +36,17 @@ public class Result<T> {
     public Result(Integer resultCode, Long identityValue) {
         this.resultCode = resultCode;
         this.identityValue = identityValue;
+    }
+
+    public Result(Integer resultCode, T data, boolean status) {
+        this.resultCode = resultCode;
+        this.data = data;
+        this.status = status;
+    }
+
+    public Result(Integer resultCode, boolean status) {
+        this.resultCode = resultCode;
+        this.status = status;
     }
 
     public List<T> getList() {
@@ -78,18 +90,26 @@ public class Result<T> {
     }
 
     public int getPageNumber() {
-        return PageNumber;
+        return pageNumber;
     }
 
     public void setPageNumber(int pageNumber) {
-        PageNumber = pageNumber;
+        this.pageNumber = pageNumber;
     }
 
     public Integer getPageSize() {
-        return PageSize;
+        return pageSize;
     }
 
     public void setPageSize(Integer pageSize) {
-        PageSize = pageSize;
+        this.pageSize = pageSize;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

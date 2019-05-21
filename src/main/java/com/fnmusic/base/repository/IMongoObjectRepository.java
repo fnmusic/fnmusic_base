@@ -4,7 +4,7 @@ import com.fnmusic.base.models.Result;
 
 import java.util.Date;
 
-public interface IObjectRepository<T> {
+public interface IMongoObjectRepository<T> {
 
     public void put(T object);
 

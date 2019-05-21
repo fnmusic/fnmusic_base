@@ -9,10 +9,10 @@ import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 
-public abstract class AbstractObjectRepository<T extends Object> implements IObjectRepository<T>  {
+public abstract class AbstractMongoMongoObjectRepository<T extends Object> implements IMongoObjectRepository<T> {
 
-    public MongoTemplate mongoTemplate;
-    public Class<T> type;
+    protected MongoTemplate mongoTemplate;
+    protected Class<T> type;
 
     @PostConstruct
     public abstract void init();

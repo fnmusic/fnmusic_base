@@ -1,17 +1,24 @@
 package com.fnmusic.base.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Stephen.Enunwah
  */
 
+@Document
 public class Mail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    private String id;
     private String mailFrom;
     private String[] mailTo;
     private String[] mailCc;
@@ -21,6 +28,10 @@ public class Mail implements Serializable {
     private String body;
     private String actionLink;
     private Date sentDate;
+
+    public Mail() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getMailFrom() {
         return mailFrom;
