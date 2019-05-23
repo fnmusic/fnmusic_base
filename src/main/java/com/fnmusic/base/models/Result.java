@@ -1,7 +1,12 @@
 package com.fnmusic.base.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Result<T> {
 
     private List<T> list;
@@ -10,13 +15,13 @@ public class Result<T> {
     private Long identityValue;
     private Long noOfRecords;
     private int pageNumber;
-    private Integer pageSize;
+    private int pageSize;
     private boolean status;
 
     public Result() {
     }
 
-    public Result(Integer resultCode, List<T> list, Long noOfRecords, Integer pageNumber, Integer pageSize) {
+    public Result(Integer resultCode, List<T> list, Long noOfRecords, int pageNumber, int pageSize) {
         this.list = list;
         this.resultCode = resultCode;
         this.noOfRecords = noOfRecords;

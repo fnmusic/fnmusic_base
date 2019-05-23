@@ -32,7 +32,7 @@ public class User implements Serializable {
     private String coverImagePath;
     private Long following;
     private Long followers;
-    private String role;
+    private Role role;
     private String twitterProfileUrl;
     private boolean verified;
     private Date dateCreated;
@@ -187,11 +187,11 @@ public class User implements Serializable {
         this.followers = followers;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
