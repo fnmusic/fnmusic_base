@@ -18,5 +18,7 @@ public interface IBaseDao<T> {
 
     public Result<T> update(T object);
 
+    public Result<T> updateByUniqueKey(String key, String value);
+
     public Result<T> deleteByUniqueKey(String key);
 }

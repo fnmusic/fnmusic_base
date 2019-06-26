@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Repository
@@ -29,34 +30,27 @@ public abstract class AbstractRedisCacheRepository implements IRedisCacheReposit
     }
 
     @Override
-    public void destroyCache(Object cache) {
-
-    }
-
-    @Override
     public void put(Object cache, String key, Object data) {
-        RedisCacheConfig config = (RedisCacheConfig) cache;
-        if (config != null) {
-            String cacheKey = config.getCacheName() + key;
+        try {
+            RedisCacheConfig config = (RedisCacheConfig) cache;
             if (config != null) {
+                String cacheKey = config.getCacheName() + key;
                 this.abstractRedisTemplate.opsForValue().set(cacheKey,data);
                 if (config.isTtlEnabled()) {
                     this.abstractRedisTemplate.expire(cacheKey, config.getTtl(), TimeUnit.SECONDS);
                 }
             }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 
     @Override
     public Object get(Object cache, String key) {
-
         try {
             RedisCacheConfig config = (RedisCacheConfig) cache;
             if (config != null) {
                 String cacheKey = config.getCacheName() + key;
-                if (config.isTtlEnabled()) {
-                    this.abstractRedisTemplate.expire(cacheKey, config.getTtl(), TimeUnit.SECONDS);
-                }
                 return this.abstractRedisTemplate.opsForValue().get(cacheKey);
             }
         } catch (Exception e) {
@@ -73,6 +67,39 @@ public abstract class AbstractRedisCacheRepository implements IRedisCacheReposit
 
     @Override
     public boolean remove(Object cache, String key) {
+        try {
+            RedisCacheConfig config = (RedisCacheConfig) cache;
+            if (config != null) {
+                String cacheKey = config.getCacheName() + key;
+                return this.abstractRedisTemplate.delete(cacheKey);
+            }
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
         return false;
     }
+
+    @Override
+    public boolean clear(Object cache, String key) {
+        try {
+            RedisCacheConfig config = (RedisCacheConfig) cache;
+            if (config != null) {
+                String cacheKey = config.getCacheName() + key;
+                Set<String> keys = this.abstractRedisTemplate.keys(cacheKey);
+                for (String var00 : keys) {
+                    this.abstractRedisTemplate.delete(var00);
+                }
+                return true;
+            }
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
+        return false;
+    }
+
+
 }

@@ -24,6 +24,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
             pspRetrieveAllByUniqueParameter,
             pspRetrieveAll,
             pspUpdate,
+            pspUpdateByUniquekey,
             pspDelete;
 
     protected final String RETURN_VALUE = "RETURN_VALUE";
@@ -38,13 +39,9 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     public abstract void init();
 
     @Transactional
+    @SuppressWarnings("unchecked")
     @Override
     public Result<T> create(T object) {
-
-        if (object == null) {
-            throw new IllegalStateException("Object cannot be null");
-        }
-
         if (pspCreate == null) {
             throw new IllegalStateException("pspCreate cannot be null");
         }
@@ -63,7 +60,6 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> retrieveByUniqueId(long id) {
-
         if (pspRetrieveByUniqueId == null) {
             throw new IllegalStateException("pspRetrieveByUniqueId cannot be null");
         }
@@ -73,11 +69,11 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
 
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
-        List<T> data = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
 
         Result<T> result = new Result<>();
         result.setIdentityValue(id);
-        result.setData(!data.isEmpty() ? data.get(0): null);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
         result.setResultCode(resultCode);
         result.setNoOfRecords(noOfRecords);
 
@@ -88,9 +84,8 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> retrieveByUniqueKey(String key) {
-
         if (pspRetrieveByUniqueKey == null) {
-            throw new IllegalStateException("pspRetrieveOneByUniqueKey cannot be null");
+            throw new IllegalStateException("pspRetrieveByUniqueKey cannot be null");
         }
 
         SqlParameterSource in = new MapSqlParameterSource().addValue("key",key);
@@ -99,11 +94,11 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
-        List<T> data = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
 
         Result<T> result = new Result<>();
         result.setIdentityValue(id);
-        result.setData(!data.isEmpty() ? data.get(0): null);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
         result.setResultCode(resultCode);
         result.setNoOfRecords(noOfRecords);
 
@@ -114,9 +109,8 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> retrieveBySecondUniqueKey(String key) {
-
         if (pspRetrieveBySecondUniqueKey == null) {
-            throw new IllegalStateException("pspRetrieveOneByUniqueKey cannot be null");
+            throw new IllegalStateException("pspRetrieveSecondByUniqueKey cannot be null");
         }
 
         SqlParameterSource in = new MapSqlParameterSource().addValue("key",key);
@@ -125,11 +119,11 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
-        List<T> data = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
-
-        Result<T> result = new Result<>();
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+        
+        Result<T> result = new Result<>(resultCode);
         result.setIdentityValue(id);
-        result.setData(!data.isEmpty() ? data.get(0): null);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
         result.setResultCode(resultCode);
         result.setNoOfRecords(noOfRecords);
 
@@ -140,9 +134,8 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> retrieveAllByUniqueParameter(String key, int pageNumber, int pageSize) {
-
         if (pspRetrieveAllByUniqueParameter == null) {
-            throw new IllegalStateException("pspRetrieveAllByUniqueKey cannot be null");
+            throw new IllegalStateException("pspRetrieveAllByUniqueParameter cannot be null");
         }
 
         SqlParameterSource in = new MapSqlParameterSource()
@@ -156,12 +149,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
         List<T> list = m.containsKey(LIST) ? (List<T>) m.get(LIST) : null;
 
-        Result<T> result = new Result<>();
-        result.setIdentityValue(id);
-        result.setList(list);
-        result.setResultCode(resultCode);
-        result.setNoOfRecords(noOfRecords);
-
+        Result<T> result = new Result<>(resultCode,list,noOfRecords,pageNumber,pageSize);
         return result;
     }
 
@@ -169,9 +157,8 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> retrieveAll(int pageNumber, int pageSize) {
-
         if (pspRetrieveAll == null) {
-            throw new IllegalStateException("pspRetrieveOneByUniqueKey cannot be null");
+            throw new IllegalStateException("pspRetrieveAll cannot be null");
         }
 
         SqlParameterSource in = new MapSqlParameterSource()
@@ -184,23 +171,14 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
         List<T> list = m.containsKey(LIST) ? (List<T>) m.get(LIST) : null;
 
-        Result<T> result = new Result<>();
-        result.setIdentityValue(id);
-        result.setList(list);
-        result.setResultCode(resultCode);
-        result.setNoOfRecords(noOfRecords);
-
+        Result<T> result = new Result(resultCode,list,noOfRecords,pageNumber,pageSize);
         return result;
     }
 
     @Transactional
+    @SuppressWarnings("unchecked")
     @Override
     public Result<T> update(T object) {
-
-        if (object == null) {
-            throw new IllegalStateException("Object cannot be null");
-        }
-
         if (pspUpdate == null) {
             throw new IllegalStateException("pspUpdate cannot be null");
         }
@@ -209,26 +187,44 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         Map<String,Object> m = pspUpdate.execute(in);
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
-        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : null;
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
         Result<T> result = new Result(resultCode,id);
-
         return result;
     }
 
     @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public Result<T> updateByUniqueKey(String key, String value) {
+        if (pspUpdateByUniquekey == null) {
+            throw new IllegalStateException("pspUpdateByUniqueKey cannot be null");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("key",key)
+                .addValue("value",value);
+        Map<String,Object> m = pspUpdateByUniquekey.execute(in);
+
+        long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
+        Result<T> result = new Result(resultCode,id);
+        return result;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
     @Override
     public Result<T> deleteByUniqueKey(String key) {
-
         if (pspDelete == null) {
             throw new IllegalStateException("pspDelete cannot be null");
         }
+
         SqlParameterSource in = new MapSqlParameterSource().addValue("key",key);
         Map<String,Object> m = pspDelete.execute(in);
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : null;
         Result<T> result = new Result(resultCode,id);
-
         return result;
     }
 

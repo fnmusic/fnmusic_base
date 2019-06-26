@@ -4,29 +4,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
     private User user;
-    public Long id;
+
+    private List<Permission> permissions;
 
     public UserPrincipal(User user) {
         this.user = user;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPasswordHash();
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUsername();
+    public UserPrincipal(User user, List<Permission> permissions) {
+        this.user = user;
+        this.permissions = permissions;
     }
 
     public User getUser() {
@@ -37,12 +29,27 @@ public class UserPrincipal implements UserDetails {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
+    public List<Permission> getPermissions() {
+        return permissions;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.permissions;
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPasswordHash();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getEmail();
     }
 
     @Override
@@ -52,7 +59,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isLockOutEnabled();
+        return !user.isLockOutEnabled();
     }
 
     @Override
@@ -62,6 +69,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isVerified();
+        return !user.isSuspended();
     }
 }

@@ -19,4 +19,6 @@ public class ConstantUtils {
             "https://fnmusic.com/activate/",
             "https://fnmusic.com/resetpassword/"
     };
+
+    public static final String PHOTO_STORAGE_PATH = "D:/Photos/";
 }

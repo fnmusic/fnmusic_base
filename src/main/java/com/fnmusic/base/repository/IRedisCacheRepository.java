@@ -8,5 +8,6 @@ public interface IRedisCacheRepository {
     Object get(Object cache, String key);
     boolean isPresent(Object cache, String key);
     boolean remove(Object cache, String key);
+    boolean clear(Object cache, String key);
 
 }

@@ -3,11 +3,14 @@ package com.fnmusic.base.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Result<T> {
+public class Result<T> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private List<T> list;
     private T data;
@@ -51,6 +54,12 @@ public class Result<T> {
 
     public Result(Integer resultCode, boolean status) {
         this.resultCode = resultCode;
+        this.status = status;
+    }
+
+    public Result(Integer resultCode, Long identityValue, boolean status) {
+        this.resultCode = resultCode;
+        this.identityValue = identityValue;
         this.status = status;
     }
 

@@ -2,12 +2,14 @@ package com.fnmusic.base.models;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public enum Role {
+import java.io.Serializable;
 
-    @Value("user")
+public enum Role implements Serializable {
+
+    @Value("USER")
     USER,
-    @Value("admin")
+    @Value("ADMIN")
     ADMIN,
-    @Value("superadmin")
-    SUPERADMIN
+    @Value("SUPER_ADMIN")
+    SUPER_ADMIN
 }

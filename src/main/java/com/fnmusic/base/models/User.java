@@ -3,6 +3,7 @@ package com.fnmusic.base.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,28 +14,51 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty(value = "Id")
     private Long id;
+    @JsonProperty(value = "Username")
     private String username;
+    @JsonProperty("FirstName")
     private String firstName;
+    @JsonProperty("LastName")
     private String lastName;
+    @JsonProperty("Email")
     private String email;
+    @JsonProperty("EmailConfirmed")
+    private boolean emailConfirmed;
     @JsonIgnore
     private String passwordHash;
+    @JsonProperty("Gender")
     private String gender;
+    @JsonProperty("DateOfBirth")
     private Date dateOfBirth;
+    @JsonProperty("Nationality")
     private String nationality;
+    @JsonProperty("PhoneNumber")
     private String phoneNumber;
+    @JsonProperty("Location")
     private String location;
+    @JsonProperty("Genre")
     private String genre;
+    @JsonProperty("Biography")
     private String biography;
+    @JsonProperty("Website")
     private String website;
+    @JsonProperty("ProfileImagePath")
     private String profileImagePath;
+    @JsonProperty("CoverImagePath")
     private String coverImagePath;
+    @JsonProperty("Following")
     private Long following;
+    @JsonProperty("Followers")
     private Long followers;
+    @JsonProperty("Role")
     private Role role;
+    @JsonProperty("TwitterProfile")
     private String twitterProfileUrl;
+    @JsonProperty("Verified")
     private boolean verified;
+    @JsonProperty("DateCreated")
     private Date dateCreated;
     @JsonIgnore
     private boolean lockOutEnabled;
@@ -42,6 +66,14 @@ public class User implements Serializable {
     private Date lockOutEndDateUtc;
     @JsonIgnore
     private int accessFailedCount;
+    @JsonIgnore
+    private boolean deleted;
+    @JsonIgnore
+    private Date dateDeleted;
+    @JsonIgnore
+    private boolean suspended;
+    @JsonIgnore
+    private Date suspensionEndDate;
 
     public Long getId() {
         return id;
@@ -81,6 +113,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
     }
 
     public String getPasswordHash() {
@@ -135,8 +175,8 @@ public class User implements Serializable {
         return genre;
     }
 
-    public void setGenre(String primaryGenre) {
-        this.genre = primaryGenre;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getBiography() {
@@ -241,5 +281,37 @@ public class User implements Serializable {
 
     public void setAccessFailedCount(int accessFailedCount) {
         this.accessFailedCount = accessFailedCount;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Date getDateDeleted() {
+        return dateDeleted;
+    }
+
+    public void setDateDeleted(Date dateDeleted) {
+        this.dateDeleted = dateDeleted;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
+
+    public Date getSuspensionEndDate() {
+        return suspensionEndDate;
+    }
+
+    public void setSuspensionEndDate(Date suspensionEndDate) {
+        this.suspensionEndDate = suspensionEndDate;
     }
 }

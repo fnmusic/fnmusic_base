@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Permission implements GrantedAuthority {
+public class Feature implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,12 +20,10 @@ public class Permission implements GrantedAuthority {
     private String name;
     @JsonProperty("Description")
     private String description;
-
+    @JsonProperty("Permission")
+    private List<Permission> permissions;
     @JsonIgnore
-    @Override
-    public String getAuthority() {
-        return this.name;
-    }
+    private Role role;
 
     public int getId() {
         return id;
@@ -49,5 +47,21 @@ public class Permission implements GrantedAuthority {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

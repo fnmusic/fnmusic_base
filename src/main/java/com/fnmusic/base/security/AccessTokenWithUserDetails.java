@@ -3,11 +3,10 @@ package com.fnmusic.base.security;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fnmusic.base.models.Permission;
+import com.fnmusic.base.models.Feature;
 import com.fnmusic.base.models.User;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,8 +18,8 @@ public class AccessTokenWithUserDetails implements Serializable {
     private String username;
     @JsonProperty("User")
     private User user;
-
-    private Collection<Permission> permissions;
+    @JsonProperty("Feature")
+    private Feature feature;
 
     public String getAccessToken() {
         return accessToken;
@@ -44,5 +43,13 @@ public class AccessTokenWithUserDetails implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
     }
 }
