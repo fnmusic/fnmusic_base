@@ -1,12 +1,14 @@
-package com.fnmusic.base.Utils;
+package com.fnmusic.base.utils;
 
 public class ConstantUtils {
 
+    public static final String APPNAME = "fnmusic";
     public static final String[] ACTIONS = new String[] {
             "CREATE_USER",
             "LOGGED_IN",
             "FORGOT_PASSWORD",
-            "RESET_PASSWORD"
+            "RESET_PASSWORD",
+            "ACCOUNT_ACTIVATION"
     };
 
     public static final String MAILSENDER = "no-reply@fnmusic.com";
@@ -15,10 +17,6 @@ public class ConstantUtils {
             "PASSWORD_RESET"
     };
 
-    public static final String[] URL_PATHS = new String[] {
-            "https://fnmusic.com/activate/",
-            "https://fnmusic.com/resetpassword/"
-    };
-
+    public static final String WEBURL = "https://localhost:5001";
     public static final String PHOTO_STORAGE_PATH = "D:/Photos/";
 }

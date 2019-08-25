@@ -2,6 +2,7 @@ package com.fnmusic.base.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,14 +13,20 @@ public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("List")
     private List<T> list;
+    @JsonProperty("Data")
     private T data;
+    @JsonProperty("ResultCode")
     private Integer resultCode;
+    @JsonProperty("IdentityValue")
     private Long identityValue;
+    @JsonProperty("NoOfRecords")
     private Long noOfRecords;
+    @JsonProperty("PageNumber")
     private int pageNumber;
+    @JsonProperty("PageSize")
     private int pageSize;
-    private boolean status;
 
     public Result() {
     }
@@ -44,23 +51,6 @@ public class Result<T> implements Serializable {
     public Result(Integer resultCode, Long identityValue) {
         this.resultCode = resultCode;
         this.identityValue = identityValue;
-    }
-
-    public Result(Integer resultCode, T data, boolean status) {
-        this.resultCode = resultCode;
-        this.data = data;
-        this.status = status;
-    }
-
-    public Result(Integer resultCode, boolean status) {
-        this.resultCode = resultCode;
-        this.status = status;
-    }
-
-    public Result(Integer resultCode, Long identityValue, boolean status) {
-        this.resultCode = resultCode;
-        this.identityValue = identityValue;
-        this.status = status;
     }
 
     public List<T> getList() {
@@ -119,11 +109,5 @@ public class Result<T> implements Serializable {
         this.pageSize = pageSize;
     }
 
-    public boolean getStatus() {
-        return status;
-    }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 }

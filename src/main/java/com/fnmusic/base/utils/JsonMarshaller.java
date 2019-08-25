@@ -1,4 +1,4 @@
-package com.fnmusic.base.Utils;
+package com.fnmusic.base.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,22 +7,19 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class JsonMarshaller<T extends Object> implements IMarshaller<T> {
+public class JsonMarshaller<T extends Object> implements IMarshaller<T, String> {
 
-    private ObjectMapper om;
+    private ObjectMapper objectMapper = new ObjectMapper();
     private static Logger logger = LoggerFactory.getLogger(JsonMarshaller.class);
-
-    public JsonMarshaller() {
-        this.om = new ObjectMapper();
-    }
 
     @Override
     public String marshall(Object data) throws JsonProcessingException {
-        return om.writeValueAsString(data);
+        return objectMapper.writeValueAsString(data);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public T unmarshall(String data, Class<?> classType) throws IOException {
-        return (T) om.readValue(data,classType);
+        return (T) objectMapper.readValue(data,classType);
     }
 }

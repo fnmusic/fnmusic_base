@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
-
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Permission implements GrantedAuthority {
@@ -21,7 +19,15 @@ public class Permission implements GrantedAuthority {
     @JsonProperty("Description")
     private String description;
 
-    @JsonIgnore
+    public Permission() {
+    }
+
+    public Permission(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
     @Override
     public String getAuthority() {
         return this.name;

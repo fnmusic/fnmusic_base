@@ -1,6 +1,7 @@
-package com.fnmusic.base.repository;
+package com.fnmusic.base.repository.impl;
 
 import com.fnmusic.base.models.RedisCacheConfig;
+import com.fnmusic.base.repository.ICacheRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,10 +12,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Repository
-public abstract class AbstractRedisCacheRepository implements IRedisCacheRepository {
+public abstract class AbstractCacheRepository implements ICacheRepository {
 
     protected RedisTemplate<String, Object> abstractRedisTemplate;
-    private static Logger logger = LoggerFactory.getLogger(AbstractRedisCacheRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractCacheRepository.class);
 
     @PostConstruct
     public abstract void init();
@@ -37,7 +38,7 @@ public abstract class AbstractRedisCacheRepository implements IRedisCacheReposit
                 String cacheKey = config.getCacheName() + key;
                 this.abstractRedisTemplate.opsForValue().set(cacheKey,data);
                 if (config.isTtlEnabled()) {
-                    this.abstractRedisTemplate.expire(cacheKey, config.getTtl(), TimeUnit.SECONDS);
+                    this.abstractRedisTemplate.expire(cacheKey, config.getTtl(), TimeUnit.HOURS);
                 }
             }
         } catch (Exception e) {
@@ -101,5 +102,8 @@ public abstract class AbstractRedisCacheRepository implements IRedisCacheReposit
         return false;
     }
 
+    @Override
+    public void destroyCache(Object cache) {
 
+    }
 }

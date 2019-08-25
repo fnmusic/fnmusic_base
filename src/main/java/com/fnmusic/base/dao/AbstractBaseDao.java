@@ -24,7 +24,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
             pspRetrieveAllByUniqueParameter,
             pspRetrieveAll,
             pspUpdate,
-            pspUpdateByUniquekey,
+            pspUpdateByUniqueKey,
             pspDelete;
 
     protected final String RETURN_VALUE = "RETURN_VALUE";
@@ -32,6 +32,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     protected final String DATA = "data";
     protected final String LIST = "list";
     protected final String NO_OF_RECORDS = "no_of_records";
+    protected final String STATUS = "status";
 
     private final Logger logger = LoggerFactory.getLogger(AbstractBaseDao.class);
 
@@ -68,7 +69,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         Map<String, Object> m = pspRetrieveByUniqueId.execute(in);
 
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
-        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
 
         Result<T> result = new Result<>();
@@ -93,7 +94,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
-        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
 
         Result<T> result = new Result<>();
@@ -118,7 +119,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
-        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
         
         Result<T> result = new Result<>(resultCode);
@@ -141,15 +142,16 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("key",key)
                 .addValue("pageNumber",pageNumber)
-                .addValue("pageSize",pageSize);
+                .addValue("pageSize",pageSize)
+                .addValue("no_of_records",null);
         Map<String,Object> m = pspRetrieveAllByUniqueParameter.execute(in);
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
-        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(LIST) ? (List<T>) m.get(LIST) : null;
 
-        Result<T> result = new Result<>(resultCode,list,noOfRecords,pageNumber,pageSize);
+        Result<T> result = new Result(resultCode,list,noOfRecords,pageNumber,pageSize);
         return result;
     }
 
@@ -163,12 +165,13 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
 
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("pageNumber",pageNumber)
-                .addValue("pageSize",pageSize);
+                .addValue("pageSize",pageSize)
+                .addValue("no_of_records",null);
         Map<String,Object> m = pspRetrieveAll.execute(in);
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
-        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (long) m.get(NO_OF_RECORDS) : 0L;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(LIST) ? (List<T>) m.get(LIST) : null;
 
         Result<T> result = new Result(resultCode,list,noOfRecords,pageNumber,pageSize);
@@ -196,14 +199,14 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Result<T> updateByUniqueKey(String key, String value) {
-        if (pspUpdateByUniquekey == null) {
+        if (pspUpdateByUniqueKey == null) {
             throw new IllegalStateException("pspUpdateByUniqueKey cannot be null");
         }
 
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("key",key)
                 .addValue("value",value);
-        Map<String,Object> m = pspUpdateByUniquekey.execute(in);
+        Map<String,Object> m = pspUpdateByUniqueKey.execute(in);
 
         long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
@@ -214,17 +217,16 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public Result<T> deleteByUniqueKey(String key) {
+    public Result<T> deleteByUniqueId(long id) {
         if (pspDelete == null) {
             throw new IllegalStateException("pspDelete cannot be null");
         }
 
-        SqlParameterSource in = new MapSqlParameterSource().addValue("key",key);
+        SqlParameterSource in = new MapSqlParameterSource().addValue("id",id);
         Map<String,Object> m = pspDelete.execute(in);
 
-        long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
         int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : null;
-        Result<T> result = new Result(resultCode,id);
+        Result<T> result = new Result(resultCode);
         return result;
     }
 

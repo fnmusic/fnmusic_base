@@ -1,12 +1,12 @@
-package com.fnmusic.base.Utils;
+package com.fnmusic.base.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
-public interface IMarshaller<T> {
+public interface IMarshaller<T, A extends Object> {
 
-    public String marshall(Object data) throws JsonProcessingException;
+    public A marshall(Object data) throws JsonProcessingException;
 
     public T unmarshall(String data, Class<?> classType) throws IOException;
 }

@@ -1,44 +1,41 @@
 package com.fnmusic.base.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by Stephen.Enunwah
- */
-
-@Document
 public class Mail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
     private String id;
-    private String mailFrom;
+    private String userId;
     private String[] mailTo;
     private String[] mailCc;
     private String[] mailBcc;
-    private String mailSubject;
-    private String templateName;
-    private String body;
-    private String actionLink;
-    private Date sentDate;
+    private String subject;
+    private String text;
+    private String actionUrl;
 
-    public Mail() {
-        this.id = UUID.randomUUID().toString();
+    @PostConstruct
+    public void init() {
+        if (id == null) this.id = UUID.randomUUID().toString();
     }
 
-    public String getMailFrom() {
-        return mailFrom;
+    public String getId() {
+        return id;
     }
 
-    public void setMailFrom(String mailFrom) {
-        this.mailFrom = mailFrom;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String[] getMailTo() {
@@ -65,58 +62,27 @@ public class Mail implements Serializable {
         this.mailBcc = mailBcc;
     }
 
-    public String getMailSubject() {
-        return mailSubject;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setMailSubject(String mailSubject) {
-        this.mailSubject = mailSubject;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    public String getTemplateName() {
-        return templateName;
+    public String getText() {
+        return text;
     }
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getBody() {
-        return body;
+    public String getActionUrl() {
+        return actionUrl;
     }
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getActionLink() {
-        return actionLink;
-    }
-
-    public void setActionLink(String actionLink) {
-        this.actionLink = actionLink;
-    }
-
-    public Date getSentDate() {
-        return sentDate;
-    }
-
-    public void setSentDate(Date sentDate) {
-        this.sentDate = sentDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Mail{" +
-                "mailFrom='" + mailFrom + '\'' +
-                ", mailTo=" + Arrays.toString(mailTo) +
-                ", mailCc=" + Arrays.toString(mailCc) +
-                ", mailBcc=" + Arrays.toString(mailBcc) +
-                ", mailSubject='" + mailSubject + '\'' +
-                ", templateName='" + templateName + '\'' +
-                ", body='" + body + '\'' +
-                ", actionLink='" + actionLink + '\'' +
-                ", sentDate=" + sentDate +
-                '}';
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
     }
 }

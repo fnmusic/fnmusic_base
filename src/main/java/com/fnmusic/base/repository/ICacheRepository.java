@@ -1,6 +1,6 @@
 package com.fnmusic.base.repository;
 
-public interface IRedisCacheRepository {
+public interface ICacheRepository {
 
     Object createCache(String appName, String cacheName, long ttl);
     void destroyCache(Object cache);

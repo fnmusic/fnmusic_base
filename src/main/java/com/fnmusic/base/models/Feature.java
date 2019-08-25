@@ -20,7 +20,7 @@ public class Feature implements Serializable {
     private String name;
     @JsonProperty("Description")
     private String description;
-    @JsonProperty("Permission")
+    @JsonProperty("Permissions")
     private List<Permission> permissions;
     @JsonIgnore
     private Role role;

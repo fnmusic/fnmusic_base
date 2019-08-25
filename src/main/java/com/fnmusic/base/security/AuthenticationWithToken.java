@@ -15,8 +15,6 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
         super(aPrincipal, aCredentials, anAuthorities);
     }
 
-
-
     public String getToken() {
         return (String) getDetails();
     }

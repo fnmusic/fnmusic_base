@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fnmusic.base.utils.Privacy;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,9 +15,9 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty(value = "Id")
+    @JsonProperty("Id")
     private Long id;
-    @JsonProperty(value = "Username")
+    @JsonProperty("Username")
     private String username;
     @JsonProperty("FirstName")
     private String firstName;
@@ -32,10 +33,18 @@ public class User implements Serializable {
     private String gender;
     @JsonProperty("DateOfBirth")
     private Date dateOfBirth;
+    @JsonProperty("MonthAndDay")
+    private Privacy MonthAndDay;
+    @JsonProperty("Year")
+    private Privacy year;
     @JsonProperty("Nationality")
     private String nationality;
+    @JsonIgnore
+    private String securityStamp;
     @JsonProperty("PhoneNumber")
     private String phoneNumber;
+    @JsonProperty("PhoneNumberConfirmed")
+    private boolean phoneNumberConfirmed;
     @JsonProperty("Location")
     private String location;
     @JsonProperty("Genre")
@@ -52,25 +61,35 @@ public class User implements Serializable {
     private Long following;
     @JsonProperty("Followers")
     private Long followers;
+    @JsonProperty("TwitterProfile")
+    private String twitterProfile;
+    @JsonProperty("FacebookProfile")
+    private String facebookProfile;
+    @JsonProperty("YoutubePage")
+    private String youtubePage;
     @JsonProperty("Role")
     private Role role;
-    @JsonProperty("TwitterProfile")
-    private String twitterProfileUrl;
     @JsonProperty("Verified")
     private boolean verified;
     @JsonProperty("DateCreated")
     private Date dateCreated;
+    @JsonProperty("TwoFactorEnabled")
+    private boolean twoFactorEnabled;
     @JsonIgnore
     private boolean lockOutEnabled;
     @JsonIgnore
     private Date lockOutEndDateUtc;
     @JsonIgnore
     private int accessFailedCount;
+    @JsonProperty("Activated")
+    private boolean activated;
+    @JsonProperty("PasswordResetProtection")
+    private boolean passwordResetProtection;
     @JsonIgnore
     private boolean deleted;
     @JsonIgnore
     private Date dateDeleted;
-    @JsonIgnore
+    @JsonProperty("Suspended")
     private boolean suspended;
     @JsonIgnore
     private Date suspensionEndDate;
@@ -147,6 +166,22 @@ public class User implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Privacy getMonthAndDay() {
+        return MonthAndDay;
+    }
+
+    public void setMonthAndDay(Privacy monthAndDay) {
+        MonthAndDay = monthAndDay;
+    }
+
+    public Privacy getYear() {
+        return year;
+    }
+
+    public void setYear(Privacy year) {
+        this.year = year;
+    }
+
     public String getNationality() {
         return nationality;
     }
@@ -155,12 +190,28 @@ public class User implements Serializable {
         this.nationality = nationality;
     }
 
+    public String getSecurityStamp() {
+        return securityStamp;
+    }
+
+    public void setSecurityStamp(String securityStamp) {
+        this.securityStamp = securityStamp;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isPhoneNumberConfirmed() {
+        return phoneNumberConfirmed;
+    }
+
+    public void setPhoneNumberConfirmed(boolean phoneNumberConfirmed) {
+        this.phoneNumberConfirmed = phoneNumberConfirmed;
     }
 
     public String getLocation() {
@@ -227,20 +278,36 @@ public class User implements Serializable {
         this.followers = followers;
     }
 
+    public String getTwitterProfile() {
+        return twitterProfile;
+    }
+
+    public void setTwitterProfile(String twitterProfile) {
+        this.twitterProfile = twitterProfile;
+    }
+
+    public String getFacebookProfile() {
+        return facebookProfile;
+    }
+
+    public void setFacebookProfile(String facebookProfile) {
+        this.facebookProfile = facebookProfile;
+    }
+
+    public String getYoutubePage() {
+        return youtubePage;
+    }
+
+    public void setYoutubePage(String youtubePage) {
+        this.youtubePage = youtubePage;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getTwitterProfileUrl() {
-        return twitterProfileUrl;
-    }
-
-    public void setTwitterProfileUrl(String twitterProfileUrl) {
-        this.twitterProfileUrl = twitterProfileUrl;
     }
 
     public boolean isVerified() {
@@ -257,6 +324,14 @@ public class User implements Serializable {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public boolean isTwoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    public void setTwoFactorEnabled(boolean twoFactorEnabled) {
+        this.twoFactorEnabled = twoFactorEnabled;
     }
 
     public boolean isLockOutEnabled() {
@@ -281,6 +356,22 @@ public class User implements Serializable {
 
     public void setAccessFailedCount(int accessFailedCount) {
         this.accessFailedCount = accessFailedCount;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public boolean isPasswordResetProtection() {
+        return passwordResetProtection;
+    }
+
+    public void setPasswordResetProtection(boolean passwordResetProtection) {
+        this.passwordResetProtection = passwordResetProtection;
     }
 
     public boolean isDeleted() {

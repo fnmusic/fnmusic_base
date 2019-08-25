@@ -1,8 +1,10 @@
-package com.fnmusic.base.Utils;
+package com.fnmusic.base.utils;
 
+import com.fnmusic.base.models.Feature;
 import com.fnmusic.base.models.User;
 import com.fnmusic.base.models.UserPrincipal;
 import com.fnmusic.base.security.AccessTokenWithUserDetails;
+import com.fnmusic.base.security.AuthenticationWithToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -25,13 +27,14 @@ public class SystemUtils {
         access.setAccessToken((String) auth.getDetails());
         access.setUser((User) auth.getPrincipal());
         access.setUsername(access.getUser().getEmail());
+        access.setFeature((Feature) auth.getDetails());
 
         return access;
     }
 
     public static String getAccessToken() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String accessToken = (String) auth.getDetails();
+        AuthenticationWithToken auth = (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
+        String accessToken = auth.getToken();
 
         return accessToken;
     }

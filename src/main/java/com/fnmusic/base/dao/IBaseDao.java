@@ -20,5 +20,5 @@ public interface IBaseDao<T> {
 
     public Result<T> updateByUniqueKey(String key, String value);
 
-    public Result<T> deleteByUniqueKey(String key);
+    public Result<T> deleteByUniqueId(long id);
 }
