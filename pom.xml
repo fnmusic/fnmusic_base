@@ -10,10 +10,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fnmusic</groupId>
-	<artifactId>fnmusic_base</artifactId>
+	<artifactId>fnmusic-base</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fnmusic_base</name>
-	<description>Base Library for fnmusic enterprise platform</description>
+	<name>fnmusic-base</name>
+	<description>Base Library for fnmusic micro-services in java</description>
 
 	<properties>
 		<java.version>1.8</java.version>

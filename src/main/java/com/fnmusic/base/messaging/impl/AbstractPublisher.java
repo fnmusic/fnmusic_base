@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 @Component
 public abstract class AbstractPublisher<T extends Object> implements IPublisher<T> {
 
-    protected RabbitTemplate abstractRabbitTemplate;
+    protected RabbitTemplate rabbitTemplate;
     private JsonMarshaller marshaller = new JsonMarshaller();
     private static Logger logger = LoggerFactory.getLogger(AbstractPublisher.class);
 
@@ -24,7 +24,7 @@ public abstract class AbstractPublisher<T extends Object> implements IPublisher<
 
         try {
             String value = marshaller.marshall(object);
-            abstractRabbitTemplate.convertAndSend(value);
+            rabbitTemplate.convertAndSend(value);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

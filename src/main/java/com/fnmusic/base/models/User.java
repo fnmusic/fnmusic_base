@@ -41,10 +41,10 @@ public class User implements Serializable {
     private String nationality;
     @JsonIgnore
     private String securityStamp;
-    @JsonProperty("PhoneNumber")
-    private String phoneNumber;
-    @JsonProperty("PhoneNumberConfirmed")
-    private boolean phoneNumberConfirmed;
+    @JsonProperty("Phone")
+    private String phone;
+    @JsonProperty("PhoneConfirmed")
+    private boolean phoneConfirmed;
     @JsonProperty("Location")
     private String location;
     @JsonProperty("Genre")
@@ -198,20 +198,20 @@ public class User implements Serializable {
         this.securityStamp = securityStamp;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public boolean isPhoneNumberConfirmed() {
-        return phoneNumberConfirmed;
+    public boolean isPhoneConfirmed() {
+        return phoneConfirmed;
     }
 
-    public void setPhoneNumberConfirmed(boolean phoneNumberConfirmed) {
-        this.phoneNumberConfirmed = phoneNumberConfirmed;
+    public void setPhoneConfirmed(boolean phoneConfirmed) {
+        this.phoneConfirmed = phoneConfirmed;
     }
 
     public String getLocation() {

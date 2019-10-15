@@ -4,21 +4,30 @@ import com.fnmusic.base.models.Result;
 
 public interface IBaseDao<T> {
 
-    public Result<T> create(T object);
+    Result<T> create(T object);
 
-    public Result<T> retrieveByUniqueId(long id);
+    Result<T> retrieveByUniqueId(long id);
 
-    public Result<T> retrieveByUniqueKey(String key);
+    Result<T> retrieveByUniqueKey(String key);
 
-    public Result<T> retrieveBySecondUniqueKey(String key);
+    Result<T> retrieveBySecondUniqueKey(String key);
 
-    public Result<T> retrieveAllByUniqueParameter(String key, int pageNumber, int pageSize);
+    Result<T> retrieveAllByUniqueParameter(String key, int pageNumber, int pageSize);
 
-    public Result<T> retrieveAll(int pageNumber, int pageSize);
+    Result<T> retrieveAll(int pageNumber, int pageSize);
 
-    public Result<T> update(T object);
+    Result<T> update(T object);
 
-    public Result<T> updateByUniqueKey(String key, String value);
+    Result<T> updateByUniqueKey(String key, String value);
 
-    public Result<T> deleteByUniqueId(long id);
+    Result<T> deleteByUniqueId(long id);
+
+    Result<T> retrieveByEmail(String email);
+
+    Result<T> retrieveByPhone(String phone);
+
+    Result<T> deleteByEmail(String email);
+
+    Result<T> deleteByPhone(String phone);
+
 }

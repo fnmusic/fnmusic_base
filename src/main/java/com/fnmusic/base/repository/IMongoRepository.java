@@ -2,25 +2,22 @@ package com.fnmusic.base.repository;
 
 import com.fnmusic.base.models.Result;
 
-import java.util.Date;
-
 public interface IMongoRepository<T> {
 
-    public void put(T object);
+    void put(T object);
 
-    public Result<T> getOneByUniqueKey(String key);
+    Result<T> getById(String id);
 
-    public Result<T> getAllByUniqueKey(String key, int pageNumber, int pageSize);
+    Result<T> getAllByUniquekey(Object key, int pageNumber, int pageSize);
 
-    public Result<T> getAll(int pageNumber, int pageSize);
+    Result<T> getAllByUniqueKeyOrderedByDateRange(Object key, int pageNumber, int pageSize, int from, int to);
 
-    public Result<T> getDateRangeByUniqueKey(String key, int pageNumber, int pageSize, Date from, Date to);
+    Result<T> getAll(int pageNumber, int pageSize);
 
-    public Result<T> getAllByDateRange(int pageNumber, int pageSize, Date from, Date to);
+    Result<T> getAllByDateRange(int pageNumber, int pageSize, int from, int to);
 
-    public void remove(String key);
+    void update(T object);
 
-    public void clear(String key);
-
+    void removeById(String id);
 
 }

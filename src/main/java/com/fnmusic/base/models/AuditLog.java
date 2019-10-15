@@ -2,11 +2,14 @@ package com.fnmusic.base.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fnmusic.base.utils.AuditLogType;
+import com.fnmusic.base.utils.CharacterType;
+import com.fnmusic.base.utils.RandomGeneratorUtils;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,25 +18,18 @@ public class AuditLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    @Id
+    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,100);
     private String userId;
+    private AuditLogType auditLogType;
     private String event;
     private String description;
     private Role role;
-    private Object auditObject;
-    private Long timeStamp;
-
-    @PostConstruct
-    public void init() {
-        if (id == null) id = UUID.randomUUID().toString();
-    }
+    private Object auditLogObject;
+    private final Long timeStamp = new Date().getTime();
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUserId() {
@@ -42,6 +38,14 @@ public class AuditLog implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public AuditLogType getAuditLogType() {
+        return auditLogType;
+    }
+
+    public void setAuditLogType(AuditLogType auditLogType) {
+        this.auditLogType = auditLogType;
     }
 
     public String getEvent() {
@@ -68,19 +72,15 @@ public class AuditLog implements Serializable {
         this.role = role;
     }
 
-    public Object getAuditObject() {
-        return auditObject;
+    public Object getAuditLogObject() {
+        return auditLogObject;
     }
 
-    public void setAuditObject(Object auditObject) {
-        this.auditObject = auditObject;
+    public void setAuditLogObject(Object auditLogObject) {
+        this.auditLogObject = auditLogObject;
     }
 
     public Long getTimeStamp() {
         return timeStamp;
-    }
-
-    public void setTimeStamp(Long timeStamp) {
-        this.timeStamp = timeStamp;
     }
 }

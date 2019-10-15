@@ -10,6 +10,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SystemUtils {
 
+
+    public static boolean isAuthenticated() {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getPrincipal().getClass().isAssignableFrom(UserPrincipal.class)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e ){
+            return false;
+        }
+    }
+
     public static User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();

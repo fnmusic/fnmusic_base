@@ -1,39 +1,37 @@
 package com.fnmusic.base.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fnmusic.base.utils.CharacterType;
+import com.fnmusic.base.utils.NotificationType;
+import com.fnmusic.base.utils.RandomGeneratorUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.Date;
+import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Document(collection = "notification")
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
     private String userId;
+    private NotificationType notificationType;
     private String header;
     private String message;
-    private String actionLink;
+    private Object NotificationObject;
+    private String url;
     private boolean read;
-
-    @PostConstruct
-    public void init() {
-
-        if (id == null) {
-            id = UUID.randomUUID().toString();
-        }
-    }
+    private final Long timestamp = new Date().getTime();
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUserId() {
@@ -42,6 +40,14 @@ public class Notification implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public NotificationType getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
     }
 
     public String getHeader() {
@@ -60,12 +66,20 @@ public class Notification implements Serializable {
         this.message = message;
     }
 
-    public String getActionLink() {
-        return actionLink;
+    public Object getNotificationObject() {
+        return NotificationObject;
     }
 
-    public void setActionLink(String actionLink) {
-        this.actionLink = actionLink;
+    public void setNotificationObject(Object notificationObject) {
+        NotificationObject = notificationObject;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public boolean isRead() {
@@ -74,5 +88,9 @@ public class Notification implements Serializable {
 
     public void setRead(boolean read) {
         this.read = read;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }

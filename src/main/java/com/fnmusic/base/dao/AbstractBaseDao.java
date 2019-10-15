@@ -25,7 +25,11 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
             pspRetrieveAll,
             pspUpdate,
             pspUpdateByUniqueKey,
-            pspDelete;
+            pspDelete,
+            pspRetrieveByEmail,
+            pspRetrieveByPhone,
+            pspDeleteByEmail,
+            pspDeleteByPhone;
 
     protected final String RETURN_VALUE = "RETURN_VALUE";
     protected final String IDENTITY = "id";
@@ -230,4 +234,82 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         return result;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public Result<T> retrieveByEmail(String email) {
+        if (pspRetrieveByEmail == null) {
+            throw new IllegalStateException("pspRetrieveByEmail cannot be null");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource().addValue("email",email);
+        Map<String,Object> m = pspRetrieveByEmail.execute(email);
+
+        long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+
+        Result<T> result = new Result<>();
+        result.setIdentityValue(id);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
+        result.setResultCode(resultCode);
+        result.setNoOfRecords(noOfRecords);
+
+        return result;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public Result<T> retrieveByPhone(String phone) {
+        if (pspRetrieveByPhone == null) {
+            throw new IllegalStateException("pspRetrieveByPhone cannot be null");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource().addValue("phone",phone);
+        Map<String,Object> m = pspRetrieveByPhone.execute(phone);
+
+        long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+
+        Result<T> result = new Result<>();
+        result.setIdentityValue(id);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
+        result.setResultCode(resultCode);
+        result.setNoOfRecords(noOfRecords);
+
+        return result;
+    }
+
+    @Transactional
+    @Override
+    public Result<T> deleteByEmail(String email) {
+        if (pspDeleteByEmail == null) {
+            throw new IllegalStateException("pspDeleteByEmail cannot be empty");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource("email",email);
+        Map<String,Object> m = pspDelete.execute(in);
+
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : null;
+        Result<T> result = new Result(resultCode);
+        return result;
+    }
+
+    @Override
+    public Result<T> deleteByPhone(String phone) {
+        if (pspDeleteByPhone == null) {
+            throw new IllegalStateException("pspDeleteByPhone cannot be empty");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource("phone",phone);
+        Map<String,Object> m = pspDelete.execute(in);
+
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : null;
+        Result<T> result = new Result(resultCode);
+        return result;
+    }
 }
