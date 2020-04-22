@@ -16,7 +16,7 @@ public class Mail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
+    private String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
     private long userId;
     private String[] to;
     private String[] cc;
@@ -26,7 +26,7 @@ public class Mail implements Serializable {
     private String actionUrl;
     private boolean isSent;
     private Date dateSent;
-    private final Long timeStamp = new Date().getTime();
+    private Long timeStamp = new Date().getTime();
 
     public String getId() {
         return id;

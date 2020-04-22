@@ -19,18 +19,14 @@ public class User implements Serializable {
     private Long id;
     @JsonProperty("Username")
     private String username;
-    @JsonProperty("FirstName")
-    private String firstName;
-    @JsonProperty("LastName")
-    private String lastName;
+    @JsonProperty("Name")
+    private String name;
     @JsonProperty("Email")
     private String email;
     @JsonProperty("EmailConfirmed")
     private boolean emailConfirmed;
     @JsonIgnore
     private String passwordHash;
-    @JsonProperty("Gender")
-    private String gender;
     @JsonProperty("DateOfBirth")
     private Date dateOfBirth;
     @JsonProperty("MonthAndDay")
@@ -110,20 +106,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -148,14 +136,6 @@ public class User implements Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Date getDateOfBirth() {

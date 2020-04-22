@@ -14,6 +14,8 @@ public class AccessTokenWithUserDetails implements Serializable {
 
     @JsonProperty("AccessToken")
     private String accessToken;
+    @JsonProperty("RefreshToken")
+    private String refreshToken;
     @JsonProperty("Username")
     private String username;
     @JsonProperty("User")
@@ -27,6 +29,14 @@ public class AccessTokenWithUserDetails implements Serializable {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getUsername() {

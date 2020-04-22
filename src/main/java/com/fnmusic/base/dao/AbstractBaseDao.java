@@ -21,6 +21,7 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
             pspRetrieveByUniqueId,
             pspRetrieveByUniqueKey,
             pspRetrieveBySecondUniqueKey,
+            pspRetrieveByThirdUniqueKey,
             pspRetrieveAllByUniqueParameter,
             pspRetrieveAll,
             pspUpdate,
@@ -126,6 +127,31 @@ public abstract class AbstractBaseDao<T extends Object> implements IBaseDao<T> {
         long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
         List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
         
+        Result<T> result = new Result<>(resultCode);
+        result.setIdentityValue(id);
+        result.setData(!list.isEmpty() ? list.get(0) : null);
+        result.setResultCode(resultCode);
+        result.setNoOfRecords(noOfRecords);
+
+        return result;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    @Override
+    public Result<T> retrieveByThirdUniqueKey(String key) {
+        if (pspRetrieveByThirdUniqueKey == null) {
+            throw new IllegalStateException("pspRetrieveThirdByUniqueKey cannot be null");
+        }
+
+        SqlParameterSource in = new MapSqlParameterSource().addValue("key",key);
+        Map<String,Object> m = pspRetrieveByThirdUniqueKey.execute(in);
+
+        long id = m.containsKey(IDENTITY) ? (long) m.get(IDENTITY) : 0L;
+        int resultCode = m.containsValue(RETURN_VALUE) ? (Integer) m.get(RETURN_VALUE) : 0;
+        long noOfRecords = m.containsKey(NO_OF_RECORDS) ? (Long) m.get(NO_OF_RECORDS) : 0;
+        List<T> list = m.containsKey(DATA) ? (List<T>) m.get(DATA) : null;
+
         Result<T> result = new Result<>(resultCode);
         result.setIdentityValue(id);
         result.setData(!list.isEmpty() ? list.get(0) : null);

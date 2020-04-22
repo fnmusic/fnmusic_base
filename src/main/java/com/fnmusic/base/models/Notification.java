@@ -20,7 +20,7 @@ public class Notification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
+    private String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
     private String userId;
     private NotificationType notificationType;
     private String header;
@@ -28,7 +28,7 @@ public class Notification implements Serializable {
     private Object NotificationObject;
     private String url;
     private boolean read;
-    private final Long timestamp = new Date().getTime();
+    private Long timestamp = new Date().getTime();
 
     public String getId() {
         return id;

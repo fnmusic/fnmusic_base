@@ -16,12 +16,12 @@ public class SMS implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
+    private String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,20);
     private String userId;
     private String recipient;
     private String message;
     private boolean sent;
-    private final Long timeStamp = new Date().getTime();
+    private Long timeStamp = new Date().getTime();
 
     public String getId() {
         return id;

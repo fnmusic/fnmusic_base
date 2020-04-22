@@ -19,7 +19,7 @@ public class AuditLog implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private final String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,100);
+    private String id = RandomGeneratorUtils.generateCode(CharacterType.ALPHANUMERIC,100);
     private String userId;
     private AuditLogType auditLogType;
     private String event;

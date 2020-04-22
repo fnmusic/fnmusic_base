@@ -12,6 +12,8 @@ public interface IBaseDao<T> {
 
     Result<T> retrieveBySecondUniqueKey(String key);
 
+    Result<T> retrieveByThirdUniqueKey(String key);
+
     Result<T> retrieveAllByUniqueParameter(String key, int pageNumber, int pageSize);
 
     Result<T> retrieveAll(int pageNumber, int pageSize);
